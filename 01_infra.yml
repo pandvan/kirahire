@@ -1,0 +1,11 @@
+---
+
+- hosts: swarm
+  connection: local
+
+  tasks:
+    - name: Import role ec2_vm
+      ansible.builtin.import_role:
+        name: ec2_vm
+      tags:
+        - role::ec2_vm
