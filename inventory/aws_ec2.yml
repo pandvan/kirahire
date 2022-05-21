@@ -1,0 +1,19 @@
+---
+
+plugin: amazon.aws.aws_ec2
+
+regions:
+  - eu-south-1
+  # "{{ lookup('env', 'AWS_REGION') | default('eu-south-1', true) | list }}"
+
+filters:
+  tag:Service: kirahire
+
+hostnames:
+  - tag:Name
+
+groups:
+  swarm: True
+
+compose:
+  ansible_host: public_ip_address

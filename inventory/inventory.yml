@@ -1,0 +1,28 @@
+---
+
+all:
+  vars:
+  children:
+    locals:
+      hosts:
+        local:
+          ansible_host: 127.0.0.1
+    swarm:
+      vars:
+        ec2_vm_vpc_id: vpc-03c6dc24989242328
+        ec2_vm_subnet_cidr: 172.31.240.0/28
+        ec2_vm_ssh_key_name: kirahire
+        ec2_vm_instance_type: t3a.micro
+        ec2_vm_assign_public_ip: yes
+        ec2_vm_image_id: ami-0c1dd6e732dee7221  # CentOS Stream 9 x86_64 20220509 (eu-south-01)
+        ec2_vm_security_group: sg-0a673700862b1d573
+        ec2_vm_additional_volume_name: /dev/sdb
+        ec2_vm_additional_volume_size: 8
+
+        ansible_user: ec2-user
+        ansible_ssh_private_key_file: "{{ playbook_dir }}/.ssh/kirahire.pem"
+      hosts:
+        kirahire-01:
+          ec2_vm_name: kirahire-01
+        kirahire-02:
+          ec2_vm_name: kirahire-02
