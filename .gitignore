@@ -1,6 +1,7 @@
 # Ansible
 .ansible
 .cache
+.ssh
 
 # Galaxy artifacts
 *.tar.gz
