@@ -1,0 +1,53 @@
+---
+
+- name: Assert ec2_vm_vpc_id is defined
+  ansible.builtin.assert:
+    that:
+      - ec2_vm_vpc_id is not none
+    fail_msg: "You need to set ec2_vm_vpc_id to use this role"
+  run_once: yes
+
+- name: Create VPC subnet
+  amazon.aws.ec2_vpc_subnet:
+    vpc_id: "{{ ec2_vm_vpc_id }}"
+    cidr: "{{ ec2_vm_subnet_cidr }}"
+    tags: "{{ ec2_vm_base_tags }}"
+  register: ec2_vpc_subnet
+  run_once: yes
+
+- name: Set VM volumes vars
+  ansible.builtin.set_fact:
+    ec2_vm_volumes: >
+      {{ ec2_vm_additional_volume_name | ternary(
+        [{
+          'device_name': ec2_vm_additional_volume_name,
+          'ebs': {
+            'volume_size': ec2_vm_additional_volume_size,
+            'delete_on_termination': true
+          }
+        }],
+        [])
+      }}
+
+- name: Create EC2 instance
+  amazon.aws.ec2_instance:
+    name: "{{ ec2_vm_name }}"
+    vpc_subnet_id: "{{ ec2_vpc_subnet.subnet.id }}"
+    instance_type: "{{ ec2_vm_instance_type }}"
+    image_id: "{{ ec2_vm_image_id }}"
+    key_name: "{{ ec2_vm_ssh_key_name }}"
+    security_group: "{{ ec2_vm_security_group }}"
+    network:
+      assign_public_ip: "{{ ec2_vm_assign_public_ip }}"
+      delete_on_termination: yes
+    volumes: "{{ ec2_vm_volumes }}"
+    tags: "{{ ec2_vm_base_tags | combine(ec2_vm_tags) }}"
+  register: ec2_instance
+
+- name: debug
+  ansible.builtin.debug:
+    var: ec2_instance
+
+# - name: Set VM volumes vars
+#   ansible.builtin.set_fact:
+#     ansible_host:
