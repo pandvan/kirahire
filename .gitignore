@@ -1,0 +1,12 @@
+# Ansible
+.ansible
+.cache
+
+# Galaxy artifacts
+*.tar.gz
+
+# VSCode
+.vscode
+
+# MacOS junk
+.DS_Store
