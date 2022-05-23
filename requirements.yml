@@ -27,5 +27,7 @@ roles:
     version: 3.1.5
   - name: robertdebock.python_pip
     version: 4.3.0
+  - name: robertdebock.storage
+    version: 5.1.1
   - name: robertdebock.update
     version: 3.1.2

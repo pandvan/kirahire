@@ -1,0 +1,54 @@
+---
+
+- hosts: swarm
+  gather_facts: yes
+  become: yes
+
+  tasks:
+    # - name: Import role robertdebock.bootstrap
+    #   ansible.builtin.import_role:
+    #     name: robertdebock.bootstrap
+    #   tags:
+    #     - role::bootstrap
+
+    # - name: Import role devsec.hardening.os_hardening
+    #   ansible.builtin.import_role:
+    #     name: devsec.hardening.os_hardening
+    #   tags:
+    #     - role::os_hardening
+
+    # - name: Import role robertdebock.core_dependencies
+    #   ansible.builtin.import_role:
+    #     name: robertdebock.core_dependencies
+    #   tags:
+    #     - role::core_dependencies
+
+    # - name: Import role robertdebock.buildtools
+    #   ansible.builtin.import_role:
+    #     name: robertdebock.buildtools
+    #   tags:
+    #     - role::buildtools
+
+    # - name: Import role robertdebock.epel
+    #   ansible.builtin.import_role:
+    #     name: robertdebock.epel
+    #   tags:
+    #     - role::epel
+
+    # - name: Import role robertdebock.python_pip
+    #   ansible.builtin.import_role:
+    #     name: robertdebock.python_pip
+    #   tags:
+    #     - role::python_pip
+
+    - name: Import role robertdebock.storage
+      ansible.builtin.import_role:
+        name: robertdebock.storage
+      tags:
+        - role::storage
+
+    - name: Import role robertdebock.docker_ce
+      ansible.builtin.import_role:
+        name: robertdebock.docker_ce
+      tags:
+        - role::docker_ce
