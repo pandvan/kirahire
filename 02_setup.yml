@@ -29,17 +29,23 @@
     #   tags:
     #     - role::buildtools
 
-    # - name: Import role robertdebock.epel
-    #   ansible.builtin.import_role:
-    #     name: robertdebock.epel
-    #   tags:
-    #     - role::epel
+    - name: Import role robertdebock.epel
+      ansible.builtin.import_role:
+        name: robertdebock.epel
+      tags:
+        - role::epel
 
-    # - name: Import role robertdebock.python_pip
-    #   ansible.builtin.import_role:
-    #     name: robertdebock.python_pip
-    #   tags:
-    #     - role::python_pip
+    - name: Import role robertdebock.python_pip
+      ansible.builtin.import_role:
+        name: robertdebock.python_pip
+      tags:
+        - role::python_pip
+
+    - name: Import role robertdebock.update
+      ansible.builtin.import_role:
+        name: robertdebock.update
+      tags:
+        - role::update
 
     - name: Import role robertdebock.storage
       ansible.builtin.import_role:
@@ -47,8 +53,32 @@
       tags:
         - role::storage
 
-    - name: Import role robertdebock.docker_ce
+    # - name: Import role robertdebock.docker_ce
+    #   ansible.builtin.import_role:
+    #     name: robertdebock.docker_ce
+    #   tags:
+    #     - role::docker_ce
+
+    - name: Import role atosatto.docker-swarm
       ansible.builtin.import_role:
-        name: robertdebock.docker_ce
+        name: atosatto.docker-swarm
       tags:
-        - role::docker_ce
+        - role::docker-swarm
+
+    - name: Ensure docker daemon startup as a service
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: yes
+
+
+- hosts: docker_swarm_manager
+  gather_facts: yes
+  become: yes
+
+  tasks:
+    - name: Import role docker_tls
+      ansible.builtin.import_role:
+        name: docker_tls
+      tags:
+        - role::docker_tls

@@ -3,6 +3,8 @@
 collections:
   - name: amazon.aws
     version: 3.2.0
+  - name: ansible.netcommon
+    version: 2.6.1
   - name: community.aws
     version: 3.2.1
   - name: community.general
@@ -13,16 +15,16 @@ collections:
     version: 7.14.1
 
 roles:
-  - name: nickjj.docker
-    version: v2.1.0
+  - name: atosatto.docker-swarm
+    version: v2.3.0
   - name: robertdebock.bootstrap
     version: 6.0.3
   - name: robertdebock.buildtools
     version: 3.1.8
   - name: robertdebock.core_dependencies
     version: 2.1.9
-  - name: robertdebock.docker_ce
-    version: 3.3.0
+  # - name: robertdebock.docker_ce
+  #   version: 3.3.0
   - name: robertdebock.epel
     version: 3.1.5
   - name: robertdebock.python_pip
