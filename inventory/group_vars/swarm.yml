@@ -1,0 +1,54 @@
+---
+
+# Used by robertdebock.storage role
+#
+# To see other defaults, look at
+# https://github.com/robertdebock/ansible-role-storage/blob/master/defaults/main.yml
+
+storage_partitions:
+  - name: "/dev/nvme1n1"
+    number: 1
+    part_end: 100%
+
+storage_filesystems:
+  - name: "/dev/nvme1n1p1"
+    filesystem: xfs
+    fstype: xfs
+
+storage_mounts:
+  - name: /var/lib/docker
+    src: "/dev/nvme1n1p1"
+    fstype: xfs
+    owner: root
+    group: root
+    mode: 0755
+    opts: defaults
+    boot: yes
+    dump: 0
+    passno: 2
+
+
+# Used by atosatto.docker-swarm
+#
+# To see other defaults, look at
+# https://github.com/atosatto/ansible-dockerswarm/blob/master/defaults/main.yml
+
+docker_package_version: 20.10.16
+
+docker_daemon_config:
+  log-driver: json-file
+  log-opts:
+    max-size: 10m
+    max-file: "10"
+
+
+# Used by robertdebock.python_pip role
+#
+# To see other defaults, look at
+# https://github.com/robertdebock/ansible-role-python_pip/blob/master/defaults/main.yml
+
+python_pip_modules:
+  - name: jsondiff
+  - name: pyyaml
+
+python_pip_update: no
