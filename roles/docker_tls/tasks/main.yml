@@ -1,0 +1,39 @@
+---
+
+- name: Ensure data root folder exists
+  ansible.builtin.file:
+    path: "{{ docker_tls_data_root }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Ensure volume folders exist
+  ansible.builtin.file:
+    path: "{{ docker_tls_volume_root }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Ensure cert volume folders exist
+  ansible.builtin.file:
+    path: "{{ docker_tls_volume_root }}/certs"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Render and copy Docker TLS Docker Compose file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ docker_tls_data_root }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Deploy stack from the compose file
+  community.docker.docker_stack:
+    name: docker-tls
+    compose:
+      - "{{ docker_tls_data_root }}/docker-compose.yml"

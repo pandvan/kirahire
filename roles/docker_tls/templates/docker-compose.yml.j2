@@ -1,0 +1,14 @@
+---
+
+version: "3.7"
+services:
+  docker-tls:
+    image: kekru/docker-remote-api-tls:v0.4.0
+    ports:
+     - 2376:443
+    environment:
+      - CREATE_CERTS_WITH_PW=supersecret
+      - CERT_HOSTNAME=kirahire.example.io
+    volumes:
+      - {{ docker_tls_volume_root }}/certs:/data/certs
+      - /var/run/docker.sock:/var/run/docker.sock:ro

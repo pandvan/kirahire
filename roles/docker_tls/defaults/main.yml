@@ -1,0 +1,4 @@
+---
+
+docker_tls_data_root: /data/docker-tls
+docker_tls_volume_root: "{{ docker_tls_data_root }}/volumes"
