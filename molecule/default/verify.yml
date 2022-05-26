@@ -4,13 +4,14 @@
   hosts: all
   gather_facts: false
 
-  tasks: ~
-    # - name: Get repo list
-    #   command: "{{ k9s_bin_path }} version --short"
-    #   changed_when: false
-    #   register: k9s_verify_version
+  tasks:
+    - name: Get repo list
+      command: yum repolist enabled
+      changed_when: false
+      register: yum_repolist
 
-    # - name: Check if EPEL repository has been addes
-    #   assert:
-    #     that:
-    #       - k9s_version in k9s_verify_version.stdout
+    - name: Check if EPEL repository has been addes
+      assert:
+        that:
+          - "'epel' in yum_repolist.stdout"
+          - "'epel-modular' in yum_repolist.stdout"
