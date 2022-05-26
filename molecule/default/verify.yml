@@ -1,0 +1,16 @@
+---
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+
+  tasks: ~
+    # - name: Get repo list
+    #   command: "{{ k9s_bin_path }} version --short"
+    #   changed_when: false
+    #   register: k9s_verify_version
+
+    # - name: Check if EPEL repository has been addes
+    #   assert:
+    #     that:
+    #       - k9s_version in k9s_verify_version.stdout

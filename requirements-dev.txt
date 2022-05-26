@@ -1,0 +1,2 @@
+-r requirements.txt
+molecule[docker]==3.6.1
