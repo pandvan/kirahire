@@ -1,6 +1,6 @@
 ---
 
-- hosts: swarm
+- hosts: docker_swarm
   gather_facts: yes
   become: yes
 

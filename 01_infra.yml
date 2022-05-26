@@ -1,6 +1,6 @@
 ---
 
-- hosts: swarm
+- hosts: docker_swarm
   connection: local
 
   tasks:
