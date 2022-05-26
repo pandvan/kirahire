@@ -20,14 +20,6 @@ roles:
   - name: atosatto.docker-swarm
     src: https://github.com/pandvan/ansible-dockerswarm
     version: master
-  - name: robertdebock.bootstrap
-    version: 6.0.3
-  - name: robertdebock.buildtools
-    version: 3.1.8
-  - name: robertdebock.core_dependencies
-    version: 2.1.9
-  # - name: robertdebock.docker_ce
-  #   version: 3.3.0
   - name: robertdebock.epel
     version: 3.1.5
   - name: robertdebock.python_pip

@@ -5,29 +5,17 @@
   become: yes
 
   tasks:
-    # - name: Import role robertdebock.bootstrap
-    #   ansible.builtin.import_role:
-    #     name: robertdebock.bootstrap
-    #   tags:
-    #     - role::bootstrap
+    - name: Import role robertdebock.update
+      ansible.builtin.import_role:
+        name: robertdebock.update
+      tags:
+        - role::update
 
     # - name: Import role devsec.hardening.os_hardening
     #   ansible.builtin.import_role:
     #     name: devsec.hardening.os_hardening
     #   tags:
     #     - role::os_hardening
-
-    # - name: Import role robertdebock.core_dependencies
-    #   ansible.builtin.import_role:
-    #     name: robertdebock.core_dependencies
-    #   tags:
-    #     - role::core_dependencies
-
-    # - name: Import role robertdebock.buildtools
-    #   ansible.builtin.import_role:
-    #     name: robertdebock.buildtools
-    #   tags:
-    #     - role::buildtools
 
     - name: Import role robertdebock.epel
       ansible.builtin.import_role:
@@ -41,23 +29,11 @@
       tags:
         - role::python_pip
 
-    - name: Import role robertdebock.update
-      ansible.builtin.import_role:
-        name: robertdebock.update
-      tags:
-        - role::update
-
     - name: Import role robertdebock.storage
       ansible.builtin.import_role:
         name: robertdebock.storage
       tags:
         - role::storage
-
-    # - name: Import role robertdebock.docker_ce
-    #   ansible.builtin.import_role:
-    #     name: robertdebock.docker_ce
-    #   tags:
-    #     - role::docker_ce
 
     - name: Import role atosatto.docker-swarm
       ansible.builtin.import_role:
@@ -70,6 +46,8 @@
         name: docker
         state: started
         enabled: yes
+      tags:
+        - role::docker-swarm
 
 
 - hosts: docker_swarm_manager
