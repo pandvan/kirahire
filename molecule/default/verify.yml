@@ -14,4 +14,3 @@
       assert:
         that:
           - "'epel' in yum_repolist.stdout"
-          - "'epel-modular' in yum_repolist.stdout"
