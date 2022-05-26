@@ -15,6 +15,31 @@
   register: ec2_vpc_subnet
   run_once: yes
 
+- name: Create VPC security group
+  amazon.aws.ec2_group:
+    name: "{{ ec2_vm_security_group_name }}"
+    description: "{{ ec2_vm_security_group_description }}"
+    vpc_id: "{{ ec2_vm_vpc_id }}"
+    rules:
+      - proto: tcp
+        ports:
+          - 22
+        cidr_ip: 0.0.0.0/0
+        rule_desc: allow SSH from anyone
+      - proto: tcp
+        ports:
+          - 2376
+        cidr_ip: 0.0.0.0/0
+        rule_desc: allow Docker via TLS from anyone
+      - proto: tcp
+        ports:
+          - 2377
+        cidr_ip: "{{ ec2_vm_subnet_cidr }}"
+        rule_desc: allow Docker swarm from subnet
+    tags: "{{ ec2_vm_base_tags }}"
+  register: ec2_security_group
+  run_once: yes
+
 - name: Set VM volumes vars
   ansible.builtin.set_fact:
     ec2_vm_volumes: >
@@ -36,7 +61,7 @@
     instance_type: "{{ ec2_vm_instance_type }}"
     image_id: "{{ ec2_vm_image_id }}"
     key_name: "{{ ec2_vm_ssh_key_name }}"
-    security_group: "{{ ec2_vm_security_group }}"
+    security_group: "{{ ec2_security_group.group_id }}"
     network:
       assign_public_ip: "{{ ec2_vm_assign_public_ip }}"
       delete_on_termination: yes
