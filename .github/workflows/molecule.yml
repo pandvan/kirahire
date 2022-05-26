@@ -46,8 +46,6 @@ jobs:
           - rockylinux8
           - centos8
           - centos7
-          - fedora36
-          - fedora35
 
     steps:
       - name: Check out the codebase.
