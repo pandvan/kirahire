@@ -15,8 +15,11 @@ collections:
     version: 7.14.1
 
 roles:
+  # - name: atosatto.docker-swarm
+  #   version: v2.3.0
   - name: atosatto.docker-swarm
-    version: v2.3.0
+    src: https://github.com/pandvan/ansible-dockerswarm
+    version: master
   - name: robertdebock.bootstrap
     version: 6.0.3
   - name: robertdebock.buildtools
@@ -29,7 +32,10 @@ roles:
     version: 3.1.5
   - name: robertdebock.python_pip
     version: 4.3.0
+  # - name: robertdebock.storage
+  #   version: 5.1.1
   - name: robertdebock.storage
-    version: 5.1.1
+    src: https://github.com/pandvan/ansible-role-storage
+    version: master
   - name: robertdebock.update
     version: 3.1.2
