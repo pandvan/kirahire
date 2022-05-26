@@ -111,6 +111,14 @@ Copiare tutti cerificati (`ca.pem`, `cert.pem`, `key.pem`) all'interno della car
 scp -i .ssh/<key.pem> 'ec2-user@e<EC2_public_DNS_name>:/data/docker-tls/volumes/certs/client/*.pem' .tls/
 ```
 
+Dal momento che i playbook non gestiscono la registrazione di un nome DNS pubblic per il nodo master è necessario modificare manualmente il profilo file `/etc/hots/` aggiungendo la riga
+
+```
+[...]
+# IP pubblico nodo master / nome scelto per la creazione del certificato
+150.100.101.102 kirahire.example.io
+```
+
 Verificare la connettività con le API del demone Docker
 
 ```bash
