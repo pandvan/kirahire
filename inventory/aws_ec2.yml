@@ -13,7 +13,7 @@ hostnames:
   - tag:Name
 
 groups:
-  swarm: True
+  swarm: true
 
 compose:
   ansible_host: public_ip_address

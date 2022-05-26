@@ -47,7 +47,3 @@
 - name: debug
   ansible.builtin.debug:
     var: ec2_instance
-
-# - name: Set VM volumes vars
-#   ansible.builtin.set_fact:
-#     ansible_host:

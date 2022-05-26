@@ -7,10 +7,6 @@
   tasks:
     - name: Print some debug information
       vars:
-          # Module Variables ("vars"):
-          # --------------------------------
-          # {{ vars | to_nice_yaml }}
-
         msg: |
           Environment Variables ("environment"):
           --------------------------------
