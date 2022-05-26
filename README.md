@@ -102,7 +102,7 @@ ansible-playbook -i inventory 02_setup.yml --tags role::docker-swarm,role::docke
 ```
 
 
-## Accesso al cluster Docker Swarm
+## Accesso al cluster Docker Swarm
 Al termine del deploy vengono create i cerificati necessari a collegarsi alle API di Docker via TLS all'interno della cartella `/data/volumes/certs/client/*.pem` del nodo master.
 
 Copiare tutti cerificati (`ca.pem`, `cert.pem`, `key.pem`) all'interno della cartella `.tls`
