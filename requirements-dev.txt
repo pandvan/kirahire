@@ -1,2 +1,2 @@
 -r requirements.txt
-molecule[docker]==3.6.1
+molecule[docker]==3.5.2
