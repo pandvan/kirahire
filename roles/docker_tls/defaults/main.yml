@@ -2,3 +2,5 @@
 
 docker_tls_data_root: /data/docker-tls
 docker_tls_volume_root: "{{ docker_tls_data_root }}/volumes"
+
+docker_tls_cert_hostname: docker-tls.example.io

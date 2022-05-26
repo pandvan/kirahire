@@ -1,6 +1,7 @@
 ---
 
-# Used by aws_ec2 role
+# Used by aws_ec2 local role
+#
 
 ec2_vm_vpc_id: vpc-03c6dc24989242328
 ec2_vm_subnet_cidr: 172.31.240.0/28
@@ -11,6 +12,10 @@ ec2_vm_image_id: ami-0c1dd6e732dee7221  # CentOS Stream 9 x86_64 20220509 (eu-so
 
 ec2_vm_additional_volume_name: /dev/sdb
 ec2_vm_additional_volume_size: 40
+
+# Used by docker_tls local role
+#
+docker_tls_cert_hostname: kirahire.example.io
 
 
 # Used by robertdebock.storage role

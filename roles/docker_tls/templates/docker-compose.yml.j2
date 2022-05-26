@@ -8,7 +8,7 @@ services:
      - 2376:443
     environment:
       - CREATE_CERTS_WITH_PW=supersecret
-      - CERT_HOSTNAME=kirahire.example.io
+      - CERT_HOSTNAME={{ docker_tls_cert_hostname }}
     volumes:
       - {{ docker_tls_volume_root }}/certs:/data/certs
       - /var/run/docker.sock:/var/run/docker.sock:ro
