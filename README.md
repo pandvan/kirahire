@@ -1,37 +1,43 @@
 # [Kirahire](#kirahire)
 
-Kirahire consente di effettuare il deploy di un cluster Docker Swam secondo le indicazioni fornite da [Kiratech](https://www.kiratech.it/).
+Kirahire consente di effettuare il deploy di un cluster Docker Swarm secondo le indicazioni fornite da [Kiratech](https://www.kiratech.it/) in forma di challenge nel processo di selezione.
+
+L'automazione è definita mediante [Ansible](https://www.ansible.com/) con l'impiego di collezioni e ruoli di terze parti resi disponibili dalla comunità.
 
 
 ## CI/CD pipeline
+Esito dell'ultima esecuzione della pipeline
+
 ![CI/CD pipeline](https://github.com/pandvan/kirahire/actions/workflows/molecule.yml/badge.svg)
+
 
 
 # Utilizzo
 
 ## Prerequisiti
 
-I playbook Ansible per il deploy di Kirehire prevedono l'utilizzo di AWS.
-Necessario:
-1. creare almeno un utente IAM con accesso programmatico (access key/secret key).
-1. creare una coppia di chiavi SSH
+I playbook Ansible per il deploy di Kirehire assumo l'utilizzo del fornitore cloud AWS.
+Prima di eseguirli, si rende necessario:
+1. Identificare l'account AWS che si vuole utilizzare.
+1. Creare almeno un utente IAM con accesso programmatico (access key + secret key).
+1. Creare una coppia di chiavi SSH e avere a disposizione la relativa chiave privata.
 
 
-## Installazione requisiti
-Si consiglia di installare le componenti su un virtual environment Python.
+## Installazione dipendenze
+Si consiglia di operare e quindi installare le componenti su un virtual environment Python dedicato.
 
 ```bash
 python3 -m venv <path_to_venv>
 source <path_to_venv>/bin/activate
 ```
 
-Aggiornare il gestore di pacchetti Python `pip`
+Una volta caricato il virtual environment, procedere con l'aggiornamento del gestore di pacchetti Python `pip`
 
 ```bash
 pip install --upgrade pip
 ```
 
-Quindi installare i requisiti, tra cui Ansible e i suoi ruoli e collezioni.
+Quindi installare i moduli Python necessari, tra cui `ansible-core`. A seguito installare tutti i ruoli e collezioni necessari al funzionamento dei playbook mediante `ansible-galaxy`.
 
 ```bash
 pip install --requirement requirements.txt
@@ -40,7 +46,7 @@ ansible-galaxy install --role-file requirements.yml
 
 
 ## Preparazione ambiente
-Importare le variabili d'ambiente per consentire l'accesso al proprio account AWS
+Impostare le variabili d'ambiente per consentire l'accesso al proprio account AWS
 
 ```bash
 export AWS_ACCESS_KEY_ID=xyz
@@ -48,22 +54,22 @@ export AWS_SECRET_ACCESS_KEY=xyz
 export AWS_REGION=xyz
 ```
 
-In alternativa utilizzare il file `set_env.sh.example` come base por poi caricare le variabili nella shell corrente
+In alternativa è possibil utilizzare il file `set_env.sh.example` come base por poi caricare le variabili nella shell corrente
 
 ```bash
 cp set_env.sh.example set_env.sh
-< modificare set_env.sh>
+# -- edit set_env.sh ---
 source set_env.sh
 ```
 
 
 ## Configurazione inventario
-Il file `inventory/inventory.yml` contiene i riferimenti delle macchine che verranno create e il loro ruolo.
-Fare riferimento al file fornito nel repository per adattare secondo proprie esigenze.
+Il file `inventory/inventory.yml` contiene i riferimenti delle macchine che verranno create e il loro ruolo (manager o worker del cluster Docker Swarm).
+Fare riferimento al file fornito nel repository e adattarlo secondo proprie esigenze.
 
 Le variabili che veicolano il comportamento dei playbook sono per lo più definite nel file `inventory/group_vars/docker_swarm.yml`.
 
-Verificare di configurare come desiderato almeno le seguenti variabili
+Accertarsi di configurare in modo opportuno almeno le seguenti variabili
 
 ```
 # ID del VPC
@@ -86,6 +92,10 @@ ec2_vm_image_id: ami-0c1dd6e732dee7221
 ## Deploy
 Copiare la chiave privata della coppia chiavi SSH creata in precedenza all'interno della cartella `.ssh`.
 
+```bash
+cp <path_to_priv_key> .ssh/kirahire.pem
+```
+
 Eseguire i playbook Ansible
 
 ```bash
@@ -103,15 +113,16 @@ ansible-playbook -i inventory 02_setup.yml --tags role::docker-swarm,role::docke
 
 
 ## Accesso al cluster Docker Swarm
-Al termine del deploy vengono create i cerificati necessari a collegarsi alle API di Docker via TLS all'interno della cartella `/data/volumes/certs/client/*.pem` del nodo master.
+Al termine del deploy vengono creati i cerificati necessari a collegarsi alle API di Docker via TLS all'interno della cartella `/data/volumes/certs/client/*.pem` del nodo master.
 
-Copiare tutti cerificati (`ca.pem`, `cert.pem`, `key.pem`) all'interno della cartella `.tls`
+Copiare tutti cerificati presenti (`ca.pem`, `cert.pem`, `key.pem`) all'interno della cartella `.tls`
 
 ```bash
-scp -i .ssh/<key.pem> 'ec2-user@e<EC2_public_DNS_name>:/data/docker-tls/volumes/certs/client/*.pem' .tls/
+mkdir .tls
+scp -i .ssh/kirahire.pem 'ec2-user@e<EC2_public_DNS_name>:/data/docker-tls/volumes/certs/client/*.pem' .tls/
 ```
 
-Dal momento che i playbook non gestiscono la registrazione di un nome DNS pubblic per il nodo master è necessario modificare manualmente il profilo file `/etc/hots/` aggiungendo la riga
+Dal momento che i playbook non gestiscono la registrazione di un nome DNS pubblico per il nodo master, per i test iniziali è necessario modificare manualmente il profilo file `/etc/hots/` aggiungendo la riga
 
 ```
 [...]
@@ -129,7 +140,7 @@ docker \
     -H=kirahire.example.io:2376 info
 ```
 
-A titolo di exempio è presente un file Docker Compose in `example/docker-compose.yml` per testare il deploy di un servizio del cluster.
+A titolo di exempio è presente un file Docker Compose in `example/docker-compose.yml` per testare il deploy di un servizio nel cluster.
 
 ```bash
 docker \
