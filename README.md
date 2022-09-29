@@ -16,7 +16,7 @@ Esito dell'ultima esecuzione della pipeline
 
 ## Prerequisiti
 
-I playbook Ansible per il deploy di Kirehire assumo l'utilizzo del fornitore cloud AWS.
+I playbook Ansible per il deploy di Kirahire assumo l'utilizzo del fornitore cloud AWS.
 Prima di eseguirli, si rende necessario:
 1. Identificare l'account AWS che si vuole utilizzare.
 1. Creare almeno un utente IAM con accesso programmatico (access key + secret key).
